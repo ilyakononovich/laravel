@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::resource('points', \App\Http\Controllers\PointController::class);
 Route::get('/', function () {
     return view('welcome');
 });

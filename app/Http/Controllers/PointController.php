@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Point;
 use Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\Point\storepointrequest;
 
 class PointController extends Controller
 {
@@ -35,15 +36,8 @@ class PointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(storepointrequest $request)
     {
-        $validate = Validator::make($request->all(),[
-            'title' => 'required|max:255'
-        ]);
-        if($validate->fails()){
-            return response()->json($validate->errors());
-        }
-
         $point = Point::create([
            'title' => $request->title,
            'longitude' => $request->longitude,
@@ -90,11 +84,6 @@ class PointController extends Controller
     public function update(Request $request, $id)
     {
         $point = Point::find($id);
-//        $point->title = $request->title;
-//        $point->longitude = $request->longitude;
-//        $point->latitude = $request->latitude;
-//        $point->description = $request->description;
-//        $point->save();
         $point->update($request->all());
         return response()->json([$point]);
     }
