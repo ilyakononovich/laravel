@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttractionType;
-use Illuminate\Http\Request;
-use Validator;
+use App\Http\Requests\AttractionType\StoreAttractionType;
+use App\Http\Requests\AttractionType\UpdateAttractionType;
 
-use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class AttractionTypeController extends Controller
 {
-    use ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,7 @@ class AttractionTypeController extends Controller
     public function index()
     {
         $attractions = AttractionType::all();
-        return response()->json($attractions);
+        return response()->json(['payload' => $attractions]);
     }
 
     /**
@@ -35,22 +33,13 @@ class AttractionTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AttractionType\StoreAttractionType  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttractionType $request)
     {
-        $validate = Validator::make($request->all(),[
-            'title' => 'required|max:255'
-        ]);
-        if($validate->fails()){
-            return response()->json($validate->errors());
-        }
-        $attraction = AttractionType::create([
-            'title' => $request->title
-        ]);
-
-        return response()->json(['attraction_type created']);
+        $attraction = AttractionType::create($request->validated());
+        return response()->json(['payload' => $attraction,'message' => 'attraction created']);
     }
 
     /**
@@ -65,7 +54,7 @@ class AttractionTypeController extends Controller
         if(is_null($attraction)) {
             return response()->json('attraction not found',404);
         }
-        return response()->json($attraction);
+        return response()->json(['payload' => $attraction]);
     }
 
     /**
@@ -82,24 +71,18 @@ class AttractionTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AttractionType\UpdateAttractionType  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,int $id)
+    public function update(UpdateAttractionType $request, $id)
     {
-        $validate = Validator::make($request->all(),[
-            'title' => 'required|max:255'
-        ]);
-        if($validate->fails()){
-            return response()->json($validate->errors());
-        }
-        $attraction = AttractionType::find($id);
+        $attraction = AttractionType::all()->find($id);
         if(is_null($attraction)){
             return response()->json(['attraction not found']);
         }
         $attraction->update($request->all());
-        return response()->json(['attraction updated']);
+        return response()->json(['payload' => $attraction, 'message' => 'attraction updated']);
     }
 
     /**
@@ -115,6 +98,6 @@ class AttractionTypeController extends Controller
             return response()->json('attraction not found',404);
         }
         $attraction->delete();
-        return response()->json('attraction deleted');
+        return response()->json(['payload' => $attraction, 'message' => 'attraction deleted']);
     }
 }

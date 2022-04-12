@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Point;
-use Validator;
-use Illuminate\Http\Request;
 use App\Http\Requests\Point\StorePointRequest;
 use App\Http\Requests\Point\UpdatePointRequest;
 
@@ -18,7 +16,7 @@ class PointController extends Controller
     public function index()
     {
         $points = Point::all();
-        return response()->json($points);
+        return response()->json(['payload' => $points]);
     }
 
     /**
@@ -40,7 +38,7 @@ class PointController extends Controller
     public function store(StorePointRequest $request)
     {
         $point = Point::create($request->validated());
-        return response()->json(['Point created']);
+        return response()->json(['payload' => $point,'message'=>'point created']);
     }
 
     /**
@@ -55,7 +53,7 @@ class PointController extends Controller
         if(is_null($point)) {
             return response()->json('point not found',404);
         }
-        return response()->json($point);
+        return response()->json(['payload' => $point]);
     }
 
     /**
@@ -79,8 +77,11 @@ class PointController extends Controller
     public function update(UpdatePointRequest $request, $id)
     {
         $point = Point::all()->find($id);
+        if(is_null($point)){
+            return response()->json(['point not found']);
+        }
         $point->update($request->all());
-        return response()->json([$point]);
+        return response()->json(['payload' => $point,'message' => 'point updated']);
     }
 
     /**
@@ -96,6 +97,6 @@ class PointController extends Controller
             return response()->json('point not found',404);
         }
         $point->delete();
-        return response()->json('point deleted');
+        return response()->json(['payload' => $point,'message' => 'point deleted']);
     }
 }

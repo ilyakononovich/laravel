@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/points', \App\Http\Controllers\PointController::class);
+Route::resource('/attractions', \App\Http\Controllers\AttractionTypeController::class);
+
 Route::get('/', function () {
     return view('welcome');
 });
