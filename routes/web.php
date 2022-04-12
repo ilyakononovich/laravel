@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/points', \App\Http\Controllers\PointController::class);
+
+Route::post('/attach-attraction',[\App\Http\Controllers\PointController::class, 'attach']);
+Route::post('/detach-attraction',[\App\Http\Controllers\PointController::class, 'detach']);
+
 Route::resource('/attractions', \App\Http\Controllers\AttractionTypeController::class);
 
 Route::get('/', function () {

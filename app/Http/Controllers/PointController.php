@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttractionType;
 use App\Models\Point;
 use App\Http\Requests\Point\StorePointRequest;
 use App\Http\Requests\Point\UpdatePointRequest;
+use App\Http\Requests\AttachAttractionTypeRequest;
+use App\Http\Requests\DetachAttractionTypeRequest;
 
 class PointController extends Controller
 {
@@ -98,5 +101,18 @@ class PointController extends Controller
         }
         $point->delete();
         return response()->json(['payload' => $point,'message' => 'point deleted']);
+    }
+
+    public function attach(AttachAttractionTypeRequest $request)
+    {
+        $point = Point::all()->find($request->point_id);
+        $point->attractions()->attach($request->attraction_type_id);
+    }
+
+
+    public function detach(DetachAttractionTypeRequest $request)
+    {
+        $point = Point::all()->find($request->point_id);
+        $point->attractions()->detach($request->attraction_type_id);
     }
 }
