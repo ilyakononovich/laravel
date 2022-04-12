@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Point;
 use Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests\Point\storepointrequest;
+use App\Http\Requests\Point\StorePointRequest;
+use App\Http\Requests\Point\UpdatePointRequest;
 
 class PointController extends Controller
 {
@@ -33,18 +34,12 @@ class PointController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Point\StorePointRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(storepointrequest $request)
+    public function store(StorePointRequest $request)
     {
-        $point = Point::create([
-           'title' => $request->title,
-           'longitude' => $request->longitude,
-           'latitude' => $request->latitude,
-           'description' => $request->description
-        ]);
-        $point->attractions()->attach($request->attraction_id);
+        $point = Point::create($request->validated());
         return response()->json(['Point created']);
     }
 
@@ -77,13 +72,13 @@ class PointController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Point\UpdatePointRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePointRequest $request, $id)
     {
-        $point = Point::find($id);
+        $point = Point::all()->find($id);
         $point->update($request->all());
         return response()->json([$point]);
     }

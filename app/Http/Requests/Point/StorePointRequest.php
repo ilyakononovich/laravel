@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Point;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class storepointrequest extends FormRequest
+class StorePointRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +27,13 @@ class storepointrequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'longitude' => 'required',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
+            'description' => ''
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json(['success' => false, 'message' => $validator->messages()->first()]));
     }
 }
