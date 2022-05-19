@@ -10,4 +10,9 @@ class Type extends Model
     use HasFactory;
 
     protected $fillable = ['name','description','poi_type_color','icon_image'];
+
+    public function pois()
+    {
+        return $this->belongsToMany(Poi::class);
+    }
 }

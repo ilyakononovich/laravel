@@ -12,4 +12,14 @@ class Poi extends Model
     protected $fillable = ['name','latitude','longitude','liked','viewed','priority','description',
         'city_id','detail','detail_info_copyright','address','website','working_hours','zoom','radius'
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function types()
+    {
+        return $this->belongsToMany(Type::class);
+    }
 }
