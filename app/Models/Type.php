@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Type extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name','description','poi_type_color','icon_image'];
 }
