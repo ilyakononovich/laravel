@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Country;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AttachAttractionTypeRequest extends FormRequest
+class StoreCountryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,7 @@ class AttachAttractionTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'point_id' => 'required|numeric',
-            'attraction_type_id' => 'required|numeric'
+            'name' => 'required|max:255'
         ];
     }
 
