@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/points', \App\Http\Controllers\PointController::class);
 
+Route::resource('/category', \App\Http\Controllers\CategoryController::class);
+
 Route::post('/attach-attraction',[\App\Http\Controllers\PointController::class, 'attach']);
 Route::post('/detach-attraction',[\App\Http\Controllers\PointController::class, 'detach']);
 
