@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
+use App\Models\Poi;
 use Illuminate\Http\Request;
-use App\Http\Requests\City\StoreCityRequest;
-use App\Http\Requests\City\UpdateCityRequest;
+use App\Http\Requests\Poi\StorePoiRequest;
+use App\Http\Requests\Poi\UpdatePoiRequest;
 
-class CityController extends Controller
+class PoiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class CityController extends Controller
      */
     public function index()
     {
-        $cities = City::all();
-        return response()->json(['payload' => $cities]);
+        $poi = Poi::all();
+        return response()->json(['payload' => $poi]);
     }
 
     /**
@@ -36,10 +36,10 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCityRequest $request)
+    public function store(StorePoiRequest $request)
     {
-        $city = City::create($request->all());
-        return response()->json(['payload' => $city,'message' => 'city created']);
+        $poi = Poi::create($request->all());
+        return response()->json(['payload' => $poi,'message' => 'poi created']);
     }
 
     /**
@@ -50,11 +50,11 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        $city = City::all()->find($id);
-        if (is_null($city)) {
-            return response()->json('category not found',404);
+        $poi = Poi::all()->find($id);
+        if (is_null($poi)) {
+            return response()->json('poi not found',404);
         }
-        return response()->json(['payload' => $city]);
+        return response()->json(['payload' => $poi]);
     }
 
     /**
@@ -75,14 +75,14 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCityRequest $request, $id)
+    public function update(UpdatePoiRequest $request, $id)
     {
-        $city = City::all()->find($id);
-        if (is_null($city)){
+        $poi = Poi::all()->find($id);
+        if (is_null($poi)){
             return response()->json(['category not found']);
         }
-        $city->update($request->all());
-        return response()->json(['payload' => $city, 'message' => 'city updated']);
+        $poi->update($request->all());
+        return response()->json(['payload' => $poi, 'message' => 'poi updated']);
     }
 
     /**
@@ -93,11 +93,11 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $city = City::all()->find($id);
-        if (is_null($city)) {
-            return response()->json('city not found',404);
+        $poi = Poi::all()->find($id);
+        if (is_null($poi)) {
+            return response()->json('poi not found',404);
         }
-        $city->delete();
-        return response()->json(['payload' => $city, 'message' => 'city deleted']);
+        $poi->delete();
+        return response()->json(['payload' => $poi, 'message' => 'poi deleted']);
     }
 }
