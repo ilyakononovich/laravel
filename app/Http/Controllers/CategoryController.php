@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -34,10 +36,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request);
-        return response()->json(['payload' => $category,'message' => 'attraction created']);
+        $category = Category::create($request->all());
+        return response()->json(['payload' => $category,'message' => 'category created']);
     }
 
     /**
@@ -48,7 +50,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::all()->find($id);
+        if(is_null($category)) {
+            return response()->json('category not found',404);
+        }
+        return response()->json(['payload' => $category]);
     }
 
     /**
@@ -69,9 +75,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        //
+        $category = Category::all()->find($id);
+        if (is_null($category)){
+            return response()->json(['category not found']);
+        }
+        $category->update($request->all());
+        return response()->json(['payload' => $category, 'message' => 'category updated']);
     }
 
     /**
@@ -82,6 +93,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::all()->find($id);
+        if (is_null($category)) {
+            return response()->json('category not found',404);
+        }
+        $category->delete();
+        return response()->json(['payload' => $category, 'message' => 'attraction deleted']);
     }
 }
