@@ -15,11 +15,11 @@ class Poi extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class,'poi_category');
     }
 
     public function types()
     {
-        return $this->belongsToMany(Type::class);
+        return $this->belongsToMany(Type::class, 'poi_type');
     }
 }

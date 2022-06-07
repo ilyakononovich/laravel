@@ -13,6 +13,6 @@ class Category extends Model
 
     public function pois()
     {
-        return $this->belongsToMany(Poi::class);
+        return $this->belongsToMany(Poi::class, 'poi_category');
     }
 }
