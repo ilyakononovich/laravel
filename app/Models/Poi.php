@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Poi extends Model
 {
@@ -21,5 +23,10 @@ class Poi extends Model
     public function types()
     {
         return $this->belongsToMany(Type::class, 'poi_type');
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        return $filter->apply($builder);
     }
 }

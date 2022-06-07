@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\PoiFilter;
 use App\Models\Poi;
 use Illuminate\Http\Request;
 use App\Http\Requests\Poi\StorePoiRequest;
@@ -99,5 +100,11 @@ class PoiController extends Controller
         }
         $poi->delete();
         return response()->json(['payload' => $poi, 'message' => 'poi deleted']);
+    }
+
+    public function search(PoiFilter $filter)
+    {
+        $pois = Poi::filter($filter)->get();
+        return response()->json(['payload' => $pois]);
     }
 }

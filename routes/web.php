@@ -20,6 +20,8 @@ Route::resource('/city', \App\Http\Controllers\CityController::class);
 Route::resource('/poi',\App\Http\Controllers\PoiController::class);
 Route::resource('/type',  \App\Http\Controllers\TypeController::class);
 
+Route::post('/poi/search',[\App\Http\Controllers\PoiController::class, 'search']);
+
 Route::get('/', function () {
     return view('welcome');
 });
