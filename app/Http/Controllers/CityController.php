@@ -52,7 +52,7 @@ class CityController extends Controller
     {
         $city = City::all()->find($id);
         if (is_null($city)) {
-            return response()->json('category not found',404);
+            return response()->json('city not found',404);
         }
         return response()->json(['payload' => $city]);
     }
